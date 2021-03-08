@@ -1,4 +1,4 @@
-#!/usr/bin/sage
+#!/usr/bin/python3
 
 from sage.all import EllipticCurve, GF
 from .decrypt import decrypt_flag
