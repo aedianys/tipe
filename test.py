@@ -1,7 +1,7 @@
 from current.prime import is_prime
 from current.factor import factor
 from current.IFP.lenstra import factor as lenstra
-#from sage.all import factor as _factor, is_prime as _is_prime
+from sage.all import factor as _factor, is_prime as _is_prime
 import timeit
 from random import randint
 
