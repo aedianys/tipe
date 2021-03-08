@@ -1,5 +1,3 @@
-#!/usr/bin/sage
-
 from sage.all import EllipticCurve, GF
 from .decrypt import decrypt_flag
 from ..ECDLP.pohlig_hellman import ECC_PH
