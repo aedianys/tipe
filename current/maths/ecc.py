@@ -1,6 +1,14 @@
 #!/usr/bin/python3
 
-from .math_lib import inverse_mod
+from .math_lib import euclide
+
+
+class CurveError(Exception):
+    def __init__(self, factor, message=None) -> None:
+        self.factor = factor
+        self.message = message
+        super().__init__(self.message)
+
 
 class EllipticCurve(object):
     """Represents a single elliptic curve defined over a finite field.
@@ -20,113 +28,96 @@ class EllipticCurve(object):
         self.p = p
 
     def eval(self, x):
-        return (x**3 + self.a * x + self.b) % self.p
+        return (x ** 3 + self.a * x + self.b) % self.p
 
     def __eq__(self, C):
         return (self.a, self.b) == (C.a, C.b)
 
-    def has_point(self, x, y):
-        return (y ** 2) % self.p == (x ** 3 + self.a * x + self.b) % self.p
+    def has_point(self, P):
+        return (P.y ** 2 * P.z) % self.p == (
+            P.x ** 3 + self.a * P.x * P.z ** 2 + self.b + P.z ** 2
+        ) % self.p
 
     def __str__(self):
         return f"y^2 = x^3 + {self.a}x + {self.b}"
+
+    def inf(self):
+        return Point(self, 0, 1, 0)
 
 
 class Point(object):
     """A point on a specific curve."""
 
-    def __init__(self, curve, x, y):
+    def __init__(self, curve, x, y, z):
         self.curve = curve
         self.x = x % curve.p
         self.y = y % curve.p
-
-        if not self.curve.has_point(x, y):
-            raise ValueError(f"{self} is not on curve {self.curve}")
+        self.z = z % curve.p
 
     def __str__(self):
-        return f"({self.x}, {self.y})"
+        return f"({self.x}, {self.y}, {self.z})"
 
     def __getitem__(self, index):
-        return [self.x, self.y][index]
+        return [self.x, self.y, self.z][index]
 
     def __eq__(self, Q):
-        return (self.curve, self.x, self.y) == (Q.curve, Q.x, Q.y)
+        return (self.curve, self.x, self.y, self.z) == (Q.curve, Q.x, Q.y, Q.z)
 
     def __neg__(self):
-        return Point(self.curve, self.x, -self.y)
+        return Point(self.curve, self.x, -self.y, self.z)
 
     def __add__(self, Q):
-        """Add two points together.
-
-        We need to take care of special cases:
-         * Q is the infinity point (0)
-         * P == Q
-         * The line crossing P and Q is vertical.
-
-        """
         assert self.curve == Q.curve
 
-        # 0 + P = P
-        if isinstance(Q, Inf):
+        if self.z == 0:
+            return Q
+
+        if Q.z == 0:
             return self
 
         xp, yp, xq, yq = self.x, self.y, Q.x, Q.y
         p = self.curve.p
-        m = None
-
-        # P == Q
-        R = 0
-        if self == Q:
-            if yp == 0:
-                R = Inf(self.curve)
-            else:
-                m = (
-                    (3 * xp * xp + self.curve.a) * mod_inverse(2 * yp, p)
-                ) % p
+        R = None
 
         # Vertical line
-        elif xp == xq:
-            R = Inf(self.curve)
+        if xp == xq and (yp + yq) % p == 0:
+            R = self.curve.inf()
 
-        # Common case
+        # P == Q
+        elif self == Q:
+            if yp == 0:
+                R = self.curve.inf()
+            else:
+                num = 3 * xp * xp + self.curve.a
+                denom = 2 * yp
+
         else:
-            m = ((yq - yp) * mod_inverse(xq - xp, p)) % p
+            num = yq - yp
+            denom = xq - xp
 
-        if m is not None:
-            xr = (m ** 2 - xp - xq) % p
-            yr = (m * (xp - xr) - yp) % p
-            R = Point(self.curve, xr, yr)
+        if R is None:
+            d, inv, _ = euclide(denom, p)
+            if d != 1:
+                raise CurveError(d)
+#                return Point(self.curve, 0, 0, d)
+            else:
+                m = inv * num
+                xr = (m ** 2 - xp - xq) % p
+                yr = (m * (xp - xr) - yp) % p
+                R = Point(self.curve, xr, yr, 1)
 
         return R
 
     def __rmul__(self, n):
         Q = self
-        R = Inf(self.curve)
+        R = self.curve.inf()
 
         while n > 0:
-            if n % 2 == 1:
+            if n & 1:
                 R = R + Q
             Q = Q + Q
-            n = n // 2
+            n >>= 1
         return R
 
     def __mul__(self, n):
         return self.__rmul__(n)
-
-
-class Inf(Point):
-    """The custom infinity point."""
-
-    def __init__(self, curve):
-        self.curve = curve
-
-    def __eq__(self, Q):
-        return isinstance(Q, Inf)
-
-    def __neg__(self):
-        """-0 = 0"""
-        return self
-
-    def __add__(self, Q):
-        """P + 0 = P"""
-        return Q
