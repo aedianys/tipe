@@ -25,7 +25,8 @@ def BSGS(a, b, G):
     c = G.exp(G.inv(a),m)
     gam = b
     for i in range(m):
-        if gam in dic:
+        try:
+            _ = dic[gam]
             return m*i+j
-        else:
+        except:
             gam = G.op(gam,c)
