@@ -15,7 +15,6 @@ class EllipticCurve(object):
 
     See here:
         http://en.wikipedia.org/wiki/Elliptic_curve
-        http://jeremykun.com/2014/02/24/elliptic-curves-as-python-objects/
 
     p must be prime, since we use the modular inverse to compute point
     addition.

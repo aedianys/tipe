@@ -2,6 +2,7 @@
 
 from ..maths.ecc import CurveError, EllipticCurve, Point
 from ..maths.math_lib import gcd, primes
+from math import log
 from .primepower import isprimepower
 from ..prime import is_prime
 from random import randrange
@@ -16,7 +17,7 @@ def randomCurve(n):
     return E, P
 
 
-def ECMFactor(n, ps, limit, times):
+def ECMFactor(n, sieve, limit, times):
     for _ in range(times):
         g = n
         while g == n:
@@ -25,7 +26,7 @@ def ECMFactor(n, ps, limit, times):
         if g > 1:
             return g
 
-        for p in ps:
+        for p in sieve:
             prod = p
             while prod < limit:
                 try:
@@ -37,11 +38,14 @@ def ECMFactor(n, ps, limit, times):
     return n
 
 
-def ECM(n, limit=1000, times=5):
+def ECM(n, times=5):
     factors = []
-    ps = primes(limit)
 
-    for p in (2, 3):
+    k = int(13 * log(n)**0.42)
+    bound = max(10 * k**2, 100)
+    sieve = primes(bound)
+
+    for p in sieve:
         q, r = divmod(n, p)
         while r == 0:
             n = q
@@ -56,7 +60,7 @@ def ECM(n, limit=1000, times=5):
         return [n]
 
     while n != 1:
-        d = ECMFactor(n, ps, limit, times)
+        d = ECMFactor(n, sieve, bound, times)
         factors.append(d)
         n //= d
 
