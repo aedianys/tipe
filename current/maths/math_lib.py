@@ -207,6 +207,22 @@ def array_scal(x, l: list, op: function):
     return [op(x,a) for a in l]
 
 
+def array_is_zero(l):
+    return all([e==0 for e in l])
+
+def array_is_inde(l1:list, l2:list, inv, add, mult):
+    """Tests if l1 and l2 are independant vectors."""
+    assert len(l1) == len(l2)
+    if array_is_zero(l1):
+        return not array_is_zero(l2)
+    else:
+        i=0
+        while l1[i] == 0: i += 1
+        if l2[i] == 0: return True
+        else:
+            return array_scal(inv(l1[i]), l1, mult) != array_scal(inv(l2[i]), l2, mult)
+
+
 def row_echelon_form(m: list, inv, add, mult):
     """Returns the row echelon form of matrix `m`
     using Gaussian elimination"""
