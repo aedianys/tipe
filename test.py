@@ -1,7 +1,6 @@
 from current.prime import is_prime
 from current.factor import factor
-from current.IFP.lenstra import factor as lenstra
-from sage.all import factor as _factor, is_prime as _is_prime
+from sage.all import factor as s_factor, is_prime as s_is_prime
 import timeit
 from random import randint
 
@@ -22,8 +21,6 @@ N = 9876432123412789339 * 14484968830081347923412479832498112841
 print(factor(7*5*13*53*31*47))
 print(factor(1359561509*8169704801))
 print(factor(N))
-#print(lenstra(7*5*13*53*31*47))
-#print(lenstra(1359561509*8169704801))
 
 """
 # primality time checks
