@@ -21,11 +21,14 @@ class AbelianGroup(object):
         return y
 
 
-def ZpZ(p):
+def ZpZ_mult(p):
     def op(x, y):
         return (x * y) % p
+    
+    def inv(x):
+        return inverse_mod(x,p)
 
-    return AbelianGroup(op, 1, inverse_mod, p - 1)
+    return AbelianGroup(op, 1, inv, p - 1)
 
 
 def ECCGroup(E, G=None):
@@ -35,7 +38,7 @@ def ECCGroup(E, G=None):
     def op(P, Q):
         return P + Q
 
-    if G == None:
+    if G is None:
         return AbelianGroup(op, Inf(E), inv, E.order())
     else:
         return AbelianGroup(op, Inf(E), inv, G.order())
