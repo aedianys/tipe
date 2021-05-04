@@ -13,14 +13,17 @@ def euclide(a: int, b: int):
     - `d`,`u`,`v` such that `a*u + b*v = d = gcd(a,b)`
     """
 
-    def exteuclide(r1, r2, u1=1, v1=0, u2=0, v2=1):
-        if r2 != 0:
-            q = r1 // r2
-            return exteuclide(r2, r1 - q * r2, u2, v2, u1 - q * u2, v1 - q * v2)
-        else:
-            return r1, u1, v1
+    r1, r2 = a, b
+    u1, u2 = 1, 0
+    v1, v2 = 0, 1
 
-    return exteuclide(a, b)
+    while r2:
+        q, r = divmod(r1,r2)
+        r1, r2 = r2, r
+        u1, u2 = u2, u1 - q * u2
+        v1, v2 = v2, v1 - q * v2
+
+    return (r1,u1,v1)
 
 
 def gcd(a: int, b: int):
@@ -193,6 +196,54 @@ def primes(n):
             for i in range(p, n + 1, p):
                 tab[i] = False
     return ps
+
+
+def array_op(l1: list, l2: list, op: function):
+    assert len(l1) == len(l2)
+    return [op(a,b) for a,b in zip(l1,l2)]
+
+
+def array_scal(x, l: list, op: function):
+    return [op(x,a) for a in l]
+
+
+def row_echelon_form(m: list, inv, add, mult):
+    """Returns the row echelon form of matrix `m`
+    using Gaussian elimination"""
+    p = len(m)
+    q = len(m[0])
+    for col in range(q):
+        i = col
+        while i < p and m[i][col] == 0:
+            i += 1
+        if i != p:
+            m[i], m[col] = m[col], m[i]
+            k = inv(m[col][col])
+            m[col] = array_scal(k, m[col])
+            for j in range(i+1,p):
+                l = array_scal(-m[j][col], m[col], mult)
+                m[j] = array_op(m[j], l, add)
+    return m
+
+
+def reduced_row_echelon_form(m: list, inv, add, mult):
+    """Returns the row echelon form of matrix `m`
+    using Gaussian elimination"""
+    p = len(m)
+    q = len(m[0])
+    for col in range(q):
+        i = col
+        while i < p and m[i][col] == 0:
+            i += 1
+        if i != p:
+            m[i], m[col] = m[col], m[i]
+            k = inv(m[col][col])
+            m[col] = array_scal(k, m[col])
+            for j in range(p):
+                if j != i:
+                    l = array_scal(-m[j][col], m[col], mult)
+                    m[j] = array_op(m[j], l, add)
+    return m
 
 
 if __name__ == "__main__":
