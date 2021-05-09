@@ -1,51 +1,45 @@
-from current.prime import is_prime
-from current.factor import factor
-#from sage.all import factor as s_factor, is_prime as s_is_prime
-import timeit
+from primality.prime import is_prime
+from IFP.factor import factor
 from random import randint
+from sage.all import EllipticCurve, GF
+from point_counting.schoof import schoof
+from groups.elliptic_curve import EllipticCurve as EC
+from fields.finite import FiniteField
+from time import time
 
+def measure_time(func, *args):
+    t = time()
+    res = func(*args)
+    print(f"Function took {time()-t} seconds to run")
+    return res
 
-def time(function, source=None, *args):
-    if source != None:
-        t = timeit.Timer(
-            "{}({})".format(function, *args),
-            setup="from {} import {}".format(source, function),
-        )
-    else:
-        t = timeit.Timer("{}({})".format(function, *args))
-    return t.autorange()
+#print(time("challenge", "challenges.exceptional_curves", ""))
+a,b,p = 46, 74, 97
+a,b,p = (1333, 1129, 3571)
+""" E = EllipticCurve(GF(p), [a, b])
+print(E.order()) """
+F = FiniteField(p)
+E2 = EC(F, a, b)
+print(measure_time(schoof, E2))
 
-
-# factorization correctness checks
-N = 9876432123412789339 * 14484968830081347923412479832498112841
-print(factor(7*5*13*53*31*47,'pollard-rho'))
-print(factor(1359561509*8169704801,'pollard-rho'))
-print(factor(1359561509**2,'pollard-rho'))
-print(factor(N))
-
+""" E = EllipticCurve(GF(p), [a, b])
+print(E.order())
+F = FiniteField(p)
+E2 = EC(F, a, b)
+print(measure_time(schoof, E2))
 """
-# primality time checks
-print(time('is_prime', 'current.main', '9876432123412789339'))
-print(time('is_prime', 'sage.all', '9876432123412789339'))
-print(time('is_prime', 'current.main', '14484968830081347923412479832498112841'))
-print(time('is_prime', 'sage.all', '14484968830081347923412479832498112841'))
+""" ec_test_values = [
+(13, 215, 229),
+(106, 166, 197),
+(31, 16, 137),
+(503, 367, 523),
+(1333, 1129, 3571)
+]
 
-N = 100
-MAX = 0x100000000000000000000000000000000
-SUM = 0
-
-for i in range(N):
-    n = randint(2,MAX)
-    prime = is_prime(n)
-    assert _is_prime(n) == prime
-    x,tx = time('is_prime', 'current.main', str(n))
-    y,ty = time('is_prime', 'sage.all', str(n))
-    rel_diff = (tx/x - ty/y)/(ty/y)
-    SUM += rel_diff
-    print(f'{i:02d} - {prime} - écart : {rel_diff}')
-
-print(SUM/N)
-
-# primality correctness checks
-print(any(is_prime(x) != _is_prime(x) for x in range(100000)))
-"""
+for a,b,p in ec_test_values:
+    #E = EllipticCurve(GF(p), [a, b])
+    #print(E.order())
+    F = FiniteField(p)
+    E2 = EC(F, a, b)
+    print(measure_time(schoof, E2))
+ """
