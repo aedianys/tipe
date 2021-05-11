@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from DLP.pohlig_hellman import pohlig_hellman
-from groups.elliptic_curve import Point
+from elliptic_curves.elliptic_curve import Point
 
 
 def EC_pohlig_hellman(G, A, curve, order=None):

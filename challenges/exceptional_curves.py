@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from sage.all import EllipticCurve, GF, plot
+from sage.all import EllipticCurve, GF
 from challenges.decrypt import decrypt_flag
 from ECDLP.smart import smart_attack
 

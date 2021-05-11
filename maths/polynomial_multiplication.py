@@ -3,12 +3,14 @@
 
 from cmath import exp, pi
 
+
 class UnityRoot:
     """Roots of unity"""
+
     def __init__(self, n, k=1):
         self.k = k
         self.n = n
-    
+
     def __bool__(self):
         return bool(self.k % self.n)
 
@@ -19,11 +21,12 @@ class UnityRoot:
     def __mul__(self, other):
         return exp(2 * 1j * pi * self.k / self.n) * other
 
+
 def bound(z):
     return abs(z.n // z.k)
 
 
-def FFT(P:list, omega:UnityRoot) -> list:
+def FFT(P: list, omega: UnityRoot) -> list:
     """The Fast Fourier Transform Algorithm"""
     if not omega:
         return [sum(P)]
@@ -35,11 +38,11 @@ def FFT(P:list, omega:UnityRoot) -> list:
     for i in range(bound(omega) // 2):
         y[i] = y0[i] + omega ** i * y1[i]
         y[i + bound(omega) // 2] = y0[i] - omega ** i * y1[i]
-    
+
     return y
 
 
-def FPM(P:list, Q:list) -> list:
+def FPM(P: list, Q: list) -> list:
     """Fast polynomial multiplication for polynomials with
     integer coefficients."""
     n = 1 << (len(P) + len(Q) - 2).bit_length()
@@ -51,6 +54,7 @@ def FPM(P:list, Q:list) -> list:
 
     R = [round(((z / n).real)) for z in FFT(RT, omega ** (-1))]
     return R
+
 
 if __name__ == "__main__":
     P, Q = [0, 1], [0, 1]

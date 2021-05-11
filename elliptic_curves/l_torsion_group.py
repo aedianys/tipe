@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from rings.quotients import QuotientRing
-from rings.curve_polynomials import CurvePolynomials
-from rings.division_polynomials import DivisionPolynomialsList
-from fields.fraction import FractionField
-from groups.elliptic_curve import EllipticCurve
+from structures.rings.quotients import QuotientRing
+from structures.fields.fraction import FractionField
+from elliptic_curves.elliptic_curve import EllipticCurve
+from elliptic_curves.curve_polynomials import CurvePolynomials
+from elliptic_curves.division_polynomials import DivisionPolynomialsList
 
 
 class LTorsionGroups:

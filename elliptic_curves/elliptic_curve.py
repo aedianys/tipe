@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from groups import AbelianGroup, AbelianGroupElement
+from structures.groups import AbelianGroup, AbelianGroupElement
 
 
 class EllipticCurve(AbelianGroup):

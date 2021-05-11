@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from rings import CommutativeRing
-from fields import FieldElement
+from structures.rings import CommutativeRing
+from structures.fields import FieldElement
 
 
 class FractionField(CommutativeRing):
@@ -24,10 +24,10 @@ class FractionField(CommutativeRing):
 
     def one(self):
         return self(self.field.one())
-    
+
     def ring(self):
         return self.field
-    
+
     def field(self):
         return self.field
 
@@ -55,7 +55,7 @@ class FractionFieldElement(FieldElement):
 
     def numbers(self):
         return self.__numerator, self.__denominator
-    
+
     def numerator(self):
         return self.__numerator
 

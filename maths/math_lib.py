@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from functools import reduce
-from rings.polynomials import Polynomial
+from structures.rings.polynomials import Polynomial
 
 
 def euclide(a, b):

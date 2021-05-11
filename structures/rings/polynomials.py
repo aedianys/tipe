@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from maths.polynomial_multiplication import FPM
-from rings import CommutativeRing, CommutativeRingElement
 from functools import reduce
+from maths.polynomial_multiplication import FPM
+from structures.rings import CommutativeRing, CommutativeRingElement
 
 
 class Polynomials(CommutativeRing):
@@ -142,8 +142,8 @@ class Polynomial(CommutativeRingElement):
         else:
             r = (self.degree() + other.degree()).bit_length()
             m = 1 << r
-            complexity_convolution = 1 << (2*r)
-            complexity_fpm = 9/2 * m * r + 5 * m
+            complexity_convolution = 1 << (2 * r)
+            complexity_fpm = 9 / 2 * m * r + 5 * m
             if complexity_fpm > complexity_convolution:
                 zero = self.__polynomials.field.zero()
                 result = [zero] * (self.degree() + other.degree() + 2)

@@ -60,18 +60,26 @@ class DivisionPolynomialsList:
         # psi[l] is :
         # - a polynomial only in x multiplied by y if l is even
         # - a polynomial only in x if l is odd
-        if len(self.__psi) < l+1:
-            self.__psi = self.__psi + [None] * (l+1 - len(self.__psi))
+        if len(self.__psi) < l + 1:
+            self.__psi = self.__psi + [None] * (l + 1 - len(self.__psi))
 
         if self.__psi[l] is None:
             m, r = divmod(l, 2)
             if r:  # l is odd
-                self.__psi[l] = self[m + 2] * self[m] ** 3 - self[m + 1] ** 3 * self[m - 1]
+                self.__psi[l] = (
+                    self[m + 2] * self[m] ** 3 - self[m + 1] ** 3 * self[m - 1]
+                )
             else:
                 if m % 2 == 0:  # m is even
-                    self.__psi[l] = (self[m + 2] * self[m - 1] ** 2 - self[m - 2] * self[m + 1] ** 2) \
-                    * (self[m].y_factor() // 2)
+                    self.__psi[l] = (
+                        self[m + 2] * self[m - 1] ** 2 - self[m - 2] * self[m + 1] ** 2
+                    ) * (self[m].y_factor() // 2)
                 else:  # m is odd
-                    self.__psi[l] = y * (self[m] // 2) \
-                        * (self[m + 2] * self[m - 1].y_factor() ** 2
-                        - self[m - 2] * self[m + 1].y_factor() ** 2)
+                    self.__psi[l] = (
+                        y
+                        * (self[m] // 2)
+                        * (
+                            self[m + 2] * self[m - 1].y_factor() ** 2
+                            - self[m - 2] * self[m + 1].y_factor() ** 2
+                        )
+                    )

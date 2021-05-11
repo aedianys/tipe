@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from rings import CommutativeRing, CommutativeRingElement
+from structures.rings import CommutativeRing, CommutativeRingElement
 
 
 class IntegersRing(CommutativeRing):
@@ -23,7 +23,8 @@ class IntegersRing(CommutativeRing):
 
     def one(self):
         return 1
-    
+
+
 class Integers(CommutativeRingElement, int):
     def ring(self):
         return IntegersRing()

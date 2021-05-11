@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from maths.tonelli_shanks import square_root_mod
-from fields.finite import FiniteField
 from math import ceil, sqrt
-from maths.quotients import representative_in_range, solve_congruences
-from maths.primes import inverse_primorial
 from maths.math_lib import gcd
-from groups.l_torsion_group import LTorsionGroups
-from rings.polynomials import Polynomials
+from maths.primes import inverse_primorial
+from maths.tonelli_shanks import square_root_mod
+from maths.quotients import representative_in_range, solve_congruences
+from structures.fields.finite import FiniteField
+from structures.rings.polynomials import Polynomials
+from elliptic_curves.l_torsion_group import LTorsionGroups
 
 
 def frobenius(point, q):
