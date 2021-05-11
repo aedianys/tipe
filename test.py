@@ -3,10 +3,11 @@ from IFP.factor import factor
 from random import randint
 from sage.all import EllipticCurve, GF
 from point_counting.schoof import schoof
-from groups.elliptic_curve import EllipticCurve as EC
-from fields.finite import FiniteField
+from elliptic_curves.elliptic_curve import EllipticCurve as EC
+from structures.fields.finite import FiniteField
 from time import time
 from point_counting.naive import naive_order
+
 
 def measure_time(func, *args):
     t = time()
@@ -14,9 +15,10 @@ def measure_time(func, *args):
     print(f"Function took {time()-t} seconds to run")
     return res
 
-#print(time("challenge", "challenges.exceptional_curves", ""))
-#a,b,p = 46, 74, 97
-a,b,p = (1333, 1129, 3571)
+
+# print(time("challenge", "challenges.exceptional_curves", ""))
+# a,b,p = 46, 74, 97
+a, b, p = (1333, 1129, 3571)
 E = EllipticCurve(GF(p), [a, b])
 print(E.order())
 F = FiniteField(p)

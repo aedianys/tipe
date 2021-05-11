@@ -3,7 +3,7 @@
 
 from challenges.opti.babystep_giantstep import BSGS
 from maths.math_lib import CRT
-from sage.all import factor, discrete_log
+from sage.all import factor
 
 
 def pohlig_hellman_prime(G, A, E, p, e):

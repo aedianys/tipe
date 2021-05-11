@@ -3,7 +3,7 @@
 
 from IFP.factor import factor
 from maths.gaussian_elimination import reduced_row_echelon_form, vector_is_inde
-from fields.finite import FiniteField
+from structures.fields.finite import FiniteField
 
 
 def is_Bsmooth(B: int, n: int):

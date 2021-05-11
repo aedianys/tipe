@@ -3,7 +3,7 @@
 
 from functools import reduce
 from maths.math_lib import euclide
-from rings.quotients import QuotientRing
+from structures.rings.quotients import QuotientRing
 
 
 def solve_congruences(congruences):

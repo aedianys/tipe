@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from rings import CommutativeRing, CommutativeRingElement
 from maths.math_lib import euclide
+from structures.rings import CommutativeRing, CommutativeRingElement
 
 
 class QuotientRing(CommutativeRing):
@@ -21,7 +21,7 @@ class QuotientRing(CommutativeRing):
 
     def one(self):
         return QuotientRingElement(self, 1)
-    
+
     def ring(self):
         return self.__ring
 

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from fields.finite import FiniteField
+from structures.fields.finite import FiniteField
 
 
 def pollard_rho(a, b, group, hash):

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from groups.elliptic_curve import EllipticCurve
+from elliptic_curves.elliptic_curve import EllipticCurve
 from maths.math_lib import gcd
 from maths.primes import primes_range
 from math import log

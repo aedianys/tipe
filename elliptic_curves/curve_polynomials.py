@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from rings import CommutativeRing, CommutativeRingElement
-from rings.polynomials import Polynomials
+from structures.rings import CommutativeRing, CommutativeRingElement
+from structures.rings.polynomials import Polynomials
 
 
 class CurvePolynomials(CommutativeRing):

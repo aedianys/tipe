@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from rings.quotients import QuotientRing
-from rings.integers import IntegersRing
+from structures.rings.quotients import QuotientRing
+from structures.rings.integers import IntegersRing
 
 
 class FiniteField(QuotientRing):

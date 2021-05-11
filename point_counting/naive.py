@@ -3,6 +3,7 @@
 
 from maths.math_lib import jacobi_symbol
 
+
 def naive_order(curve):
     """Naive point counting for curve over Z/pZ"""
     count = 1
@@ -15,5 +16,5 @@ def naive_order(curve):
             count += 1
         elif j == 1:
             count += 2
-    
+
     return count

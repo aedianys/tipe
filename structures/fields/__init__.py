@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from rings import CommutativeRingElement
+from structures.rings import CommutativeRingElement
 
 
 class FieldElement(CommutativeRingElement):
@@ -25,9 +25,9 @@ class FieldElement(CommutativeRingElement):
 
     def inverse(self):
         raise NotImplementedError
-    
+
     def ring(self):
         raise NotImplementedError
-    
+
     def field(self):
         return self.ring()
