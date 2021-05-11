@@ -6,6 +6,7 @@ from point_counting.schoof import schoof
 from groups.elliptic_curve import EllipticCurve as EC
 from fields.finite import FiniteField
 from time import time
+from point_counting.naive import naive_order
 
 def measure_time(func, *args):
     t = time()
@@ -14,12 +15,13 @@ def measure_time(func, *args):
     return res
 
 #print(time("challenge", "challenges.exceptional_curves", ""))
-a,b,p = 46, 74, 97
+#a,b,p = 46, 74, 97
 a,b,p = (1333, 1129, 3571)
-""" E = EllipticCurve(GF(p), [a, b])
-print(E.order()) """
+E = EllipticCurve(GF(p), [a, b])
+print(E.order())
 F = FiniteField(p)
 E2 = EC(F, a, b)
+print(measure_time(naive_order, E2))
 print(measure_time(schoof, E2))
 
 """ E = EllipticCurve(GF(p), [a, b])
