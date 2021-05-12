@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+from math import ceil, log10
+
 
 def primes_range(lesser_bound, upper_bound):
     """List all primes between `lesser_bound` and `upper_bound`
@@ -21,7 +23,8 @@ def inverse_primorial(n, ignored=0):
     Return a list of the first primes whose product is greater than, or equal
     to `n`, but do not use `ignored`.
     """
-    primes = primes_range(2, n + 1)
+    bound = ceil(9 + 2.6 * log10(n))
+    primes = primes_range(2, bound)
 
     # Find the smallest product of primes that is at least n, but don't use
     # the ignored prime.

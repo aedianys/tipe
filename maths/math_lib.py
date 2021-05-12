@@ -71,9 +71,9 @@ def CRT(residues: list, moduli: list):
 def valuation2(x: int):
     """Computes `y`,`k` such that `x = y * 2**k` and `y` is odd"""
     k = 0
-    while not x & 1:
+    while x % 2 == 0:
         k += 1
-        x >>= 1
+        x //= 2
     return x, k
 
 
