@@ -58,61 +58,61 @@ def CRT(residues: list, moduli: list):
     - the unique solution to the problem
     """
 
-    N = reduce(lambda x, y: x * y, moduli)
-    x = 0
+    n = reduce(lambda x, y: x * y, moduli)
+    solution = 0
 
-    for r, p in zip(residues, moduli):
-        m = N // p
-        x += r * inverse_mod(m, p) * m
+    for residue, modulo in zip(residues, moduli):
+        comodulo = n // modulo
+        solution += residue * inverse_mod(comodulo, modulo) * comodulo
 
-    return x % N
-
-
-def valuation2(x: int):
-    """Computes `y`,`k` such that `x = y * 2**k` and `y` is odd"""
-    k = 0
-    while x % 2 == 0:
-        k += 1
-        x //= 2
-    return x, k
+    return solution % n
 
 
-def valuation(n: int, b: int):
-    """Computes `d`,`r` such that `n = d * b**r` and `b` do not divide `d`"""
-    if b == 2:
-        return valuation2(n)
-    r, d = 0, n
-    q, s = divmod(n, b)
-    while s == 0:
-        r += 1
-        d = q
-        q, s = divmod(d, b)
-    return d, r
+def valuation2(n: int):
+    """Computes `odd`,`power` such that `n = odd * 2 ** power`
+    and `odd` is odd"""
+    return valuation(n, 2)
+
+
+def valuation(n: int, base: int):
+    """Computes `factor`,`power` such that
+    `n = factor * b ** power` and `base` do not divide `factor`"""
+    power, factor = 0, n
+    quotient, remainder = divmod(n, base)
+    while remainder == 0:
+        factor += 1
+        factor = quotient
+        quotient, remainder = divmod(factor, base)
+    return factor, power
 
 
 def jacobi_symbol(a: int, n: int):
     """Jacobi symbol `(a|n)` where `n` must be odd strictly positive integer"""
-    assert n > 0 and n & 1
+    assert n > 0 and n % 2 == 1
     a = a % n
-    t = 1
+    sign = 1
     while a != 0:
-        q, r = divmod(a, 2)
-        while r == 0:
-            a = q
-            s = n & 7
-            if s == 3 or s == 5:
-                t = -t
-            q, r = divmod(a, 2)
+        odd, power = valuation2(a)
+        a = odd
+        if power % 2 == 1 and n % 8 in (3, 5):
+            sign = -sign
 
         a, n = n, a
         if a & 3 == 3 and n & 3 == 3:
-            t = -t
+            sign = -sign
+
         a = a % n
 
     if n == 1:
-        return t
+        return sign
     else:
         return 0
+
+
+def is_quadratic_residue(n, p):
+    """Tests if n is quadratic residue modulo p using Euler's criteria."""
+    r = pow(n, (p - 1) // 2, p)
+    return r == 1
 
 
 def int_sqrt(n: int):
@@ -166,12 +166,3 @@ def is_perfect_square(x: int):
     if d & 7 != 1 or d <= 0:
         return d == 0
     return int_sqrt(d) ** 2 == d
-
-
-def factorial(n: int):
-    assert n >= 0
-    f = 1
-    while n != 0:
-        f *= n
-        n -= 1
-    return f
