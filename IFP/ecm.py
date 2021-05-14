@@ -10,17 +10,19 @@ from primality.prime import is_prime
 from random import randrange
 
 
-def randomCurve(n):
-    """Returns a random curve on field `GF(n)` and a random point on it."""
-    x, y = randrange(1, n), randrange(1, n)
-    a = randrange(1, n)
-    b = (y ** 2 - x ** 3 - a * x) % n
-    E = EllipticCurve(a, b, n)
+def randomCurve(p):
+    """Returns a random curve on field `GF(p)` and a random point on it."""
+    x, y = randrange(1, p), randrange(1, p)
+    a = randrange(1, p)
+    b = (y ** 2 - x ** 3 - a * x) % p
+    E = EllipticCurve(a, b, p)
     point = E(x, y)
     return E, point
 
 
 def ECMFactor(n, sieve, limit, times):
+    """Finds a prime factor of `n` using
+    the elliptic-curve factorization method"""
     for _ in range(times):
         g = n
         while g == n:
@@ -43,6 +45,8 @@ def ECMFactor(n, sieve, limit, times):
 
 
 def ECM(n, times=5):
+    """Returns the list of prime factors of `n`
+    using ECM factorization algorithm."""
     factors = []
 
     k = int(13 * log(n) ** 0.42)

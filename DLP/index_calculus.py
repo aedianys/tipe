@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from IFP.factor import factor
-from maths.gaussian_elimination import reduced_row_echelon_form, vector_is_inde
+from maths.gaussian_elimination import reduced_row_echelon_form, vectors_are_inde
 from structures.fields.finite import FiniteField
 
 
@@ -41,7 +41,7 @@ def index_calculus(g: int, h: int, p: int, r: int):
                 rel[f] += 1
             rel[-1] = k
 
-            if all([vector_is_inde(rel, l) for l in relations]):
+            if all([vectors_are_inde(rel, l) for l in relations]):
                 relations.append(rel)
                 if len(relations) >= r:
                     break

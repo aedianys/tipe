@@ -2,34 +2,38 @@
 # -*- coding: utf-8 -*-
 
 
-def vector_add(l1: list, l2: list):
-    assert len(l1) == len(l2)
-    return [a + b for a, b in zip(l1, l2)]
+def vector_add(v1: list, v2: list):
+    """Vector addition"""
+    assert len(v1) == len(v2)
+    return [x + y for x, y in zip(v1, v2)]
 
 
-def vector_scal(x, l: list):
-    return [x * a for a in l]
+def vector_scal(scalar, v: list):
+    """Scalar multiplication of a vector"""
+    return [scalar * x for x in v]
 
 
-def vector_is_zero(l):
-    return all([not e for e in l])
+def vector_is_zero(v):
+    """Tests if v is the zero vector."""
+    return all([not e for e in v])
 
 
-def vector_is_inde(l1: list, l2: list):
-    """Tests if l1 and l2 are independant vectors."""
-    assert len(l1) == len(l2)
-    if vector_is_zero(l1):
-        return not vector_is_zero(l2)
+def vectors_are_inde(v1: list, v2: list):
+    """Tests if v1 and v2 are independant vectors."""
+    assert len(v1) == len(v2)
+
+    if vector_is_zero(v1):
+        return not vector_is_zero(v2)
     else:
         i = 0
-        while not l1[i]:
+        while not v1[i]:
             i += 1
 
-        if not l2[i]:
+        if not v2[i]:
             return True
         else:
-            l1_reduced = vector_scal(l1[i].inverse() * l2[i], l1)
-            return l1_reduced != l2
+            v1_reduced = vector_scal(v1[i].inverse() * v2[i], v1)
+            return v1_reduced != v2
 
 
 def reduced_row_echelon_form(system: list):
@@ -37,6 +41,7 @@ def reduced_row_echelon_form(system: list):
     using Gaussian elimination"""
     p = len(system)
     q = len(system[0])
+
     for col in range(q):
         i = col
         while i < p and not system[i][col]:
