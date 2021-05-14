@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from maths.math_lib import valuation2, jacobi_symbol
+from maths.math_lib import valuation2, is_quadratic_residue
 
 
 def square_root_mod(n, p):
@@ -9,12 +9,12 @@ def square_root_mod(n, p):
     Computes the square root r of n modulo a prime p
     if it exists, ie such that r² = n (mod p)
     """
-    assert jacobi_symbol(n, p) == 1
+    assert is_quadratic_residue(n, p)
 
     q, s = valuation2(p - 1)
 
     z = 2
-    while jacobi_symbol(z, p) == 1:
+    while is_quadratic_residue(z, p):
         z += 1
 
     m = s
