@@ -47,7 +47,10 @@ class EllipticCurve(AbelianGroup):
             return P.y ** 2 == self.eval(P.x)
 
     def is_singular(self):
-        return 4 * (self.A) ** 3 + 27 * (self.B) ** 2 == 0
+        return self.discriminant() == 0
+    
+    def discriminant(self):
+        return - (4 * (self.A) ** 3 + 27 * (self.B) ** 2)
 
 
 class Point(AbelianGroupElement):
