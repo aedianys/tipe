@@ -5,7 +5,7 @@ from cmath import exp, pi
 
 
 class UnityRoot:
-    """Roots of unity"""
+    """Naive class for roots of unity"""
 
     def __init__(self, n, k=1):
         self.k = k
