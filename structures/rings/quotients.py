@@ -104,7 +104,8 @@ class QuotientRingElement(CommutativeRingElement):
         if gcd == R.one():
             return self.__quotient_ring(inverse)
         else:
-            raise ZeroDivisionError(gcd)
+            message = f"{self.remainder} has no inverse modulo {self.modulus}"
+            raise ZeroDivisionError(message, gcd)
 
     def __int__(self):
         return int(self.__remainder)

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from elliptic_curves.elliptic_curve import EllipticCurve
+from structures.fields.finite import FiniteField
 from maths.math_lib import gcd
 from maths.primes import primes_range
 from math import log
@@ -15,30 +16,33 @@ def randomCurve(p):
     x, y = randrange(1, p), randrange(1, p)
     a = randrange(1, p)
     b = (y ** 2 - x ** 3 - a * x) % p
-    E = EllipticCurve(a, b, p)
-    point = E(x, y)
-    return E, point
+    field = FiniteField(p)
+    curve = EllipticCurve(field, a, b)
+    point = curve(x, y)
+    return curve, point
 
 
 def ECMFactor(n, sieve, limit, times):
-    """Finds a prime factor of `n` using
+    """Finds a non-trivial factor of `n` using
     the elliptic-curve factorization method"""
     for _ in range(times):
         g = n
         while g == n:
-            E, point = randomCurve(n)
-            A, B = E.parameters()
-            g = gcd(4 * A ** 3 + 27 * B ** 2, n)
+            curve, point = randomCurve(n)
+            g = gcd(n, curve.discriminant().remainder())
+            
         if g > 1:
             return g
 
         for prime in sieve:
             prod = prime
-            while prod < limit:
+            i = 0
+            while prod < limit and i < 10:
+                i += 1
                 try:
                     point = prime * point
                 except ZeroDivisionError as e:
-                    return gcd(e, n)
+                    return gcd(e.args[1], n)
                 prod *= prime
 
     return n
@@ -69,7 +73,7 @@ def ECM(n, times=5):
 
     while n != 1:
         factor = ECMFactor(n, sieve, bound, times)
-        factors.append(factor)
+        factors += ECM(factor)
         n //= factor
 
     return sorted(factors)
