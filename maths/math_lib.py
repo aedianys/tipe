@@ -61,9 +61,9 @@ def CRT(residues: list, moduli: list):
     n = reduce(lambda x, y: x * y, moduli)
     solution = 0
 
-    for residue, modulo in zip(residues, moduli):
-        comodulo = n // modulo
-        solution += residue * inverse_mod(comodulo, modulo) * comodulo
+    for residue, modulus in zip(residues, moduli):
+        m = n // modulus
+        solution += residue * inverse_mod(m, modulus) * m
 
     return solution % n
 
