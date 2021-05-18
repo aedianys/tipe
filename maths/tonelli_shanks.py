@@ -2,20 +2,22 @@
 # -*- coding: utf-8 -*-
 
 from maths.math_lib import valuation2, is_quadratic_residue
+from random import randrange
 
 
-def square_root_mod(n, p):
+def square_root_mod(n:int, p:int, skip=True):
     """
     Computes the square root r of n modulo a prime p
     if it exists, ie such that r² = n (mod p)
     """
-    assert is_quadratic_residue(n, p)
+    if not skip:
+        assert is_quadratic_residue(n, p)
 
     q, s = valuation2(p - 1)
 
-    z = 2
+    z = randrange(2, p)
     while is_quadratic_residue(z, p):
-        z += 1
+        z = randrange(2, p)
 
     m = s
     c = pow(z, q, p)
