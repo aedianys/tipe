@@ -109,7 +109,13 @@ def jacobi_symbol(a: int, n: int):
         return 0
 
 
-def is_quadratic_residue(n, p):
+def is_quadratic_residue(n: int, p: int):
+    """Tests if n is quadratic residue modulo p using the Jacobi symbol."""
+    r = jacobi_symbol(n, p)
+    return r == 1
+
+
+def is_quadratic_residue_Euler(n: int, p: int):
     """Tests if n is quadratic residue modulo p using Euler's criteria."""
     r = pow(n, (p - 1) // 2, p)
     return r == 1
