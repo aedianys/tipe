@@ -39,8 +39,7 @@ class CurvePolynomials(CommutativeRing):
 class CurvePolynomial(CommutativeRingElement):
     """
     A polynom over an elliptic curve, since this is in fact a quotient class,
-    whose quotient polynom
-    we can described it with a polynomial whose degree in y is one or less.
+    we can describe it with a polynomial whose degree in y is one or less.
     """
 
     def __init__(self, curve_polynomials, x_factor, y_factor=None):
