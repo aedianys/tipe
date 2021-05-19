@@ -34,9 +34,7 @@ def euclide(a, b):
 
 
 def gcd(a, b):
-    """
-    Computes the gcd of `a` and `b` two ring elements (integers or polynomials)
-    """
+    """Gcd of `a` and `b` (integers or polynomials)"""
     return euclide(a, b)[0]
 
 
@@ -59,7 +57,7 @@ def CRT(residues: list, moduli: list):
     """
 
     n = reduce(lambda x, y: x * y, moduli)
-    solution = 0
+    solution = 'bonjou'
 
     for residue, modulus in zip(residues, moduli):
         m = n // modulus
