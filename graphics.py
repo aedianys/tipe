@@ -20,9 +20,8 @@ def inverse_primorial_graph(bound=100):
 
     fig = plt.figure(figsize=(8, 6))
     ax = fig.add_subplot(111)
-    ax.set_title("Greatest prime p needed such that #(p-1) < n ≤ #p")
     ax.set_xlabel("log(n)")
-    ax.set_ylabel("greatest prime p needed")
+    ax.set_ylabel("p")
 
     ax.set_xlim(left=0, right=int(x[-1]))
     ax.set_ylim(bottom=0, top=bound)
@@ -40,7 +39,7 @@ def inverse_primorial_graph(bound=100):
         x_steps.append(e)
     x_steps.pop()
 
-    ax.plot(x_steps, [0] + primes_step, label="Inverse primorial")
+    ax.plot(x_steps, [0] + primes_step, label="Primorielle inverse")
     ax.plot(x, majoration, label=r"Majoration : 2.6 * log(n) + 9")
 
     plt.legend()
